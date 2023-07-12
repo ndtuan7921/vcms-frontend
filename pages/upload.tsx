@@ -16,10 +16,28 @@ export default function Upload() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isVideoUploaded, setIsVideoUploaded] = useState(false);
+  const [videoData, setVideoData] = useState({});
+  console.log(videoData);
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log("tuan...");
+    fetch(
+      "https://69e5-2402-800-6294-49cf-940c-2a9b-32cf-7ac.ngrok-free.app/api/videos",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: title,
+          description: description,
+          ...videoData,
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((res) => console.log(res));
   };
+  // host + videoURL
   return (
     <Container maxWidth="lg">
       <form onSubmit={handleSubmit}>
@@ -61,7 +79,10 @@ export default function Upload() {
               </FormfieldWrapper>
             </Stack>
 
-            <Uploader handleUpload={setIsVideoUploaded} />
+            <Uploader
+              handleUpload={setIsVideoUploaded}
+              handleVideoData={setVideoData}
+            />
           </Stack>
 
           <FormfieldWrapper>

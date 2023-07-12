@@ -7,9 +7,18 @@ import ProTip from "../src/ProTip";
 import Copyright from "../src/Copyright";
 import Header from "../src/components/Header";
 import VideoCard from "../src/components/VideoCard";
-import Video from "../src/components/Video";
+import TimePicker from "../src/components/TimePicker";
 
 export default function Home() {
+  const handleTimeChange = (newTime) => {
+    // Perform any logic with the selected time
+    console.log("Selected time:", newTime);
+  };
+  fetch(
+    "https://69e5-2402-800-6294-49cf-940c-2a9b-32cf-7ac.ngrok-free.app/api/videos"
+  )
+    .then((res) => res.json())
+    .then((res) => console.log(res));
   return (
     <>
       <Box
@@ -21,11 +30,11 @@ export default function Home() {
           alignItems: "center",
         }}
       >
-        {/* <VideoCard />
         <VideoCard />
         <VideoCard />
-        <VideoCard /> */}
-        <Video />
+        <VideoCard />
+        <VideoCard />
+        {/* <TimePicker onTimeChange={handleTimeChange} /> */}
       </Box>
     </>
   );
