@@ -7,6 +7,7 @@ import Uploader from "../src/components/Uploader";
 import "@uppy/core/dist/style.min.css";
 import "@uppy/dashboard/dist/style.min.css";
 import { useState } from "react";
+import { host } from "../env.config";
 
 const FormfieldWrapper = styled(Box)(({ theme }) => ({
   margin: "8px 0",
@@ -20,20 +21,17 @@ export default function Upload() {
   console.log(videoData);
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    fetch(
-      "https://69e5-2402-800-6294-49cf-940c-2a9b-32cf-7ac.ngrok-free.app/api/videos",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: title,
-          description: description,
-          ...videoData,
-        }),
-      }
-    )
+    fetch(`${host}/api/videos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        description: description,
+        ...videoData,
+      }),
+    })
       .then((res) => res.json())
       .then((res) => console.log(res));
   };

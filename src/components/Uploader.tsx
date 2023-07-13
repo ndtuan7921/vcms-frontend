@@ -14,6 +14,18 @@ const uppy = new Uppy({
     maxNumberOfFiles: 1,
     allowedFileTypes: ["video/*"],
   },
+  onBeforeFileAdded: (currentFile, files) => {
+    const Tick = new Date().getTime();
+    const modifiedFile = {
+      ...currentFile,
+      name:
+        currentFile.name.replace(".mp4", "").replace(/\s/g, "_") +
+        "_" +
+        Tick +
+        ".mp4",
+    };
+    return modifiedFile;
+  },
 }).use(Tus, {
   endpoint: TUS_ENDPOINT,
   //   allowedMetaFields: ["name", "id", "author"],
@@ -28,14 +40,8 @@ function Uploader(props: UploaderProps) {
   const { handleUpload, handleVideoData } = props;
 
   uppy.on("file-added", (file) => {
-    const Tick = new Date().getTime();
-    const newFileName =
-      file.name.replace(".mp4", "").replace(/\s/g, "_") + "_" + Tick + ".mp4";
-
-    file.name = newFileName;
-
     uppy.setFileMeta(file.id, {
-      name: newFileName,
+      name: file.name,
     });
   });
 
